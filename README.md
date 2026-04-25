@@ -1,100 +1,241 @@
-# M5StickC Plus2 - ESP-IDF Activity Monitor
+# 🚀 M5StickC Plus2 - ESP-IDF Activity Monitor
 
-Projeto de estudo com ESP-IDF + M5Unified para leitura de IMU e exibição no display.
+Projeto de estudo utilizando **ESP-IDF + M5Unified** no M5StickC Plus2.\
+Study project using **ESP-IDF + M5Unified** on M5StickC Plus2.
 
+------------------------------------------------------------------------
 
-# 🚀 Fase 1 — Setup M5StickC Plus2 com ESP-IDF + M5Unified
+# 🇧🇷 Português
 
 ## 🎯 Objetivo
 
-Configurar um projeto mínimo funcional utilizando:
+Criar um projeto mínimo funcional para:
 
-* ESP-IDF
-* M5StickC Plus2
-* Biblioteca M5Unified
+-   Validar ambiente ESP-IDF\
+-   Integrar biblioteca M5Unified\
+-   Ler dados do acelerômetro (IMU)\
+-   Exibir dados na tela
 
-Resultado esperado:
-
-* Build funcionando
-* Firmware rodando
-* Tela exibindo dados do acelerômetro (IMU)
-
----
+------------------------------------------------------------------------
 
 ## 🧱 Pré-requisitos
 
-* ESP-IDF instalado (v5.x)
-* Python configurado pelo ESP-IDF
-* Placa M5StickC Plus2 conectada via USB
+-   ESP-IDF instalado (v5.x)
+-   Python configurado
+-   M5StickC Plus2 conectado via USB
 
----
+------------------------------------------------------------------------
 
-## 📁 Estrutura do projeto
+## ⚙️ Passo a passo
 
-```
-m5stickc-idf-activity-haptic/
-├── CMakeLists.txt
-├── sdkconfig
-└── main/
-    ├── CMakeLists.txt
-    ├── idf_component.yml
-    └── main.cpp
-```
+### 1. Criar o projeto
 
----
-
-## ⚙️ Passo 1 — Criar projeto
-
-```bash
+``` bash
 idf.py create-project m5stickc-idf-activity-haptic
 cd m5stickc-idf-activity-haptic
 ```
 
----
+------------------------------------------------------------------------
 
-## 📦 Passo 2 — Adicionar dependência
+### 2. Adicionar biblioteca
 
-```bash
+``` bash
 idf.py add-dependency "m5stack/M5Unified"
 ```
 
----
+------------------------------------------------------------------------
 
-## 🧾 Passo 3 — Configurar idf_component.yml
+### 3. Configurar arquivos
 
-Arquivo: `main/idf_component.yml`
+#### main/idf_component.yml
 
-```yaml
+``` yaml
 dependencies:
   m5stack/M5Unified: "^0.2.13"
 ```
 
----
+#### main/CMakeLists.txt
 
-## 🧾 Passo 4 — Configurar CMakeLists.txt
-
-Arquivo: `main/CMakeLists.txt`
-
-```cmake
+``` cmake
 idf_component_register(
     SRCS "main.cpp"
     INCLUDE_DIRS "."
 )
 ```
 
----
+------------------------------------------------------------------------
 
-## 💻 Passo 5 — Criar main.cpp
+### 4. Código principal
 
-Arquivo: `main/main.cpp`
-
-```cpp
-#include <stdio.h>
+``` cpp
+#include <M5Unified.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#include <M5Unified.h>
+// IMPORTANTE:
+// extern "C" evita erro de link (C vs C++)
+extern "C" void app_main(void)
+{
+    // Inicializa sistema M5
+    auto cfg = M5.config();
+    M5.begin(cfg);
 
+    // Rotaciona tela
+    M5.Display.setRotation(1);
+
+    while (1) {
+
+        float ax, ay, az;
+
+        // Leitura do acelerômetro
+        M5.Imu.getAccel(&ax, &ay, &az);
+
+        // Limpa tela
+        M5.Display.fillScreen(TFT_BLACK);
+
+        // Define posição do cursor
+        M5.Display.setCursor(10, 10);
+
+        // Exibe valores
+        M5.Display.printf("AX: %.2f\n", ax);
+        M5.Display.printf("AY: %.2f\n", ay);
+        M5.Display.printf("AZ: %.2f\n", az);
+
+        // Aguarda 500ms
+        vTaskDelay(pdMS_TO_TICKS(500));
+    }
+}
+```
+
+------------------------------------------------------------------------
+
+### 5. Build e upload
+
+``` bash
+idf.py build
+idf.py flash monitor
+```
+
+------------------------------------------------------------------------
+
+## ✅ Resultado esperado
+
+-   Valores AX / AY / AZ mudam ao movimentar o dispositivo\
+-   Tela atualiza continuamente
+
+------------------------------------------------------------------------
+
+## ⚠️ Problemas comuns
+
+### ❌ app_main undefined
+
+✔ Solução:
+
+``` cpp
+extern "C" void app_main(void)
+```
+
+------------------------------------------------------------------------
+
+### ❌ M5Unified requires C++
+
+✔ Solução: - Renomear `main.c` → `main.cpp`
+
+------------------------------------------------------------------------
+
+### ❌ Rodar build dentro de /main
+
+✔ Solução: - Executar na raiz do projeto
+
+------------------------------------------------------------------------
+
+## 🧠 Aprendizados
+
+-   Estrutura do ESP-IDF\
+-   Integração de bibliotecas\
+-   Diferença entre C e C++\
+-   Uso básico da IMU
+
+------------------------------------------------------------------------
+
+## 🚀 Próxima fase
+
+-   Detectar movimento\
+-   Detectar inatividade\
+-   Criar alertas\
+-   Ativar vibração
+
+------------------------------------------------------------------------
+
+# 🇺🇸 English
+
+## 🎯 Objective
+
+Create a minimal working project to:
+
+-   Validate ESP-IDF setup\
+-   Integrate M5Unified\
+-   Read IMU data\
+-   Display data on screen
+
+------------------------------------------------------------------------
+
+## 🧱 Prerequisites
+
+-   ESP-IDF installed (v5.x)
+-   Python configured
+-   M5StickC Plus2 connected via USB
+
+------------------------------------------------------------------------
+
+## ⚙️ Step by step
+
+### 1. Create project
+
+``` bash
+idf.py create-project m5stickc-idf-activity-haptic
+cd m5stickc-idf-activity-haptic
+```
+
+------------------------------------------------------------------------
+
+### 2. Add dependency
+
+``` bash
+idf.py add-dependency "m5stack/M5Unified"
+```
+
+------------------------------------------------------------------------
+
+### 3. Configure files
+
+#### main/idf_component.yml
+
+``` yaml
+dependencies:
+  m5stack/M5Unified: "^0.2.13"
+```
+
+#### main/CMakeLists.txt
+
+``` cmake
+idf_component_register(
+    SRCS "main.cpp"
+    INCLUDE_DIRS "."
+)
+```
+
+------------------------------------------------------------------------
+
+### 4. Main code
+
+``` cpp
+#include <M5Unified.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
+// IMPORTANT:
+// extern "C" avoids linker errors
 extern "C" void app_main(void)
 {
     auto cfg = M5.config();
@@ -103,103 +244,77 @@ extern "C" void app_main(void)
     M5.Display.setRotation(1);
 
     while (1) {
+
         float ax, ay, az;
 
         M5.Imu.getAccel(&ax, &ay, &az);
 
         M5.Display.fillScreen(TFT_BLACK);
         M5.Display.setCursor(10, 10);
-        M5.Display.setTextColor(TFT_WHITE);
 
-        M5.Display.printf("AX: %.2f\nAY: %.2f\nAZ: %.2f\n", ax, ay, az);
+        M5.Display.printf("AX: %.2f\n", ax);
+        M5.Display.printf("AY: %.2f\n", ay);
+        M5.Display.printf("AZ: %.2f\n", az);
 
         vTaskDelay(pdMS_TO_TICKS(500));
     }
 }
 ```
 
----
+------------------------------------------------------------------------
 
-## 🔨 Passo 6 — Build e Flash
+### 5. Build and flash
 
-⚠️ Execute na raiz do projeto (não dentro de `/main`)
-
-```bash
+``` bash
 idf.py build
 idf.py flash monitor
 ```
 
----
+------------------------------------------------------------------------
 
-## ✅ Resultado esperado
+## ✅ Expected result
 
-Na tela do dispositivo:
+-   AX / AY / AZ values change when moving\
+-   Display updates continuously
 
-```
-AX: 0.01
-AY: -0.02
-AZ: 1.00
-```
+------------------------------------------------------------------------
 
-* Valores mudam ao movimentar o dispositivo
-* Sistema está funcionando corretamente
+## ⚠️ Common issues
 
----
+### ❌ app_main undefined
 
-## ⚠️ Problemas comuns (e soluções)
+✔ Fix:
 
-### ❌ Erro: `app_main undefined`
-
-✔ Solução:
-
-```cpp
+``` cpp
 extern "C" void app_main(void)
 ```
 
----
+------------------------------------------------------------------------
 
-### ❌ Erro: M5Unified requires C++
+### ❌ M5Unified requires C++
 
-✔ Solução:
+✔ Fix: - Rename `main.c` → `main.cpp`
 
-* Renomear `main.c` → `main.cpp`
+------------------------------------------------------------------------
 
----
+### ❌ Running build inside /main
 
-### ❌ Rodar build dentro de /main
+✔ Fix: - Run from project root
 
-✔ Solução:
+------------------------------------------------------------------------
 
-Executar sempre na raiz do projeto:
+## 🧠 Learnings
 
-```bash
-idf.py build
-```
+-   ESP-IDF structure\
+-   Library integration\
+-   C vs C++ differences\
+-   Basic IMU usage
 
----
+------------------------------------------------------------------------
 
-## 🧠 Conclusão
+## 🚀 Next phase
 
-Nesta fase você validou:
-
-* Toolchain ESP-IDF
-* Integração com M5Unified
-* Uso da IMU (acelerômetro)
-* Uso do display
-
-👉 Base sólida para próximas fases.
-
----
-
-## 🚀 Próxima fase
-
-Implementar lógica de atividade:
-
-* Detectar movimento
-* Detectar inatividade
-* Exibir alertas
-* Ativar vibração
-
----
-
-📌 Fase concluída com sucesso ✔
+-   Detect movement\
+-   Detect inactivity\
+-   Create alerts\
+-   Trigger vibration
