@@ -1,3 +1,8 @@
+# M5StickC Plus2 - ESP-IDF Activity Monitor
+
+Projeto de estudo com ESP-IDF + M5Unified para leitura de IMU e exibição no display.
+
+
 # 🚀 Fase 1 — Setup M5StickC Plus2 com ESP-IDF + M5Unified
 
 ## 🎯 Objetivo
