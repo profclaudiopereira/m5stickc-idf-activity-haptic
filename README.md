@@ -1,320 +1,223 @@
-# 🚀 M5StickC Plus2 - ESP-IDF Activity Monitor
+# 🚀 M5StickC Plus2 - Activity Monitor (ESP-IDF)
 
-Projeto de estudo utilizando **ESP-IDF + M5Unified** no M5StickC Plus2.\
+Projeto de estudo evolutivo utilizando **ESP-IDF + M5Unified** no
+M5StickC Plus2.\
 Study project using **ESP-IDF + M5Unified** on M5StickC Plus2.
 
 ------------------------------------------------------------------------
 
 # 🇧🇷 Português
 
+## 📚 Visão geral
+
+Este projeto foi desenvolvido de forma **didática e evolutiva**,
+dividido em fases:
+
+-   Fase 1 → Setup + leitura da IMU\
+-   Fase 2 → Detecção de movimento + alerta com vibração
+
+------------------------------------------------------------------------
+
 ## 🎯 Objetivo
 
-Criar um projeto mínimo funcional para:
+Construir um sistema embarcado capaz de:
 
--   Validar ambiente ESP-IDF\
--   Integrar biblioteca M5Unified\
--   Ler dados do acelerômetro (IMU)\
--   Exibir dados na tela
-
-------------------------------------------------------------------------
-
-## 🧱 Pré-requisitos
-
--   ESP-IDF instalado (v5.x)
--   Python configurado
--   M5StickC Plus2 conectado via USB
+-   Ler sensores (acelerômetro)
+-   Detectar movimento
+-   Exibir informações na tela
+-   Gerar alerta físico (vibração)
 
 ------------------------------------------------------------------------
 
-## ⚙️ Passo a passo
+## 🧱 Estrutura do projeto
 
-### 1. Criar o projeto
-
-``` bash
-idf.py create-project m5stickc-idf-activity-haptic
-cd m5stickc-idf-activity-haptic
-```
-
-------------------------------------------------------------------------
-
-### 2. Adicionar biblioteca
-
-``` bash
-idf.py add-dependency "m5stack/M5Unified"
-```
+    .
+    ├── README.md
+    ├── docs/
+    │   ├── fase1.md
+    │   └── fase2.md
+    └── main/
+        ├── main.cpp
+        ├── main_fase1.cpp
+        ├── vibrator.c
+        └── vibrator.h
 
 ------------------------------------------------------------------------
 
-### 3. Configurar arquivos
-
-#### main/idf_component.yml
-
-``` yaml
-dependencies:
-  m5stack/M5Unified: "^0.2.13"
-```
-
-#### main/CMakeLists.txt
-
-``` cmake
-idf_component_register(
-    SRCS "main.cpp"
-    INCLUDE_DIRS "."
-)
-```
-
-------------------------------------------------------------------------
-
-### 4. Código principal
-
-``` cpp
-#include <M5Unified.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-
-// IMPORTANTE:
-// extern "C" evita erro de link (C vs C++)
-extern "C" void app_main(void)
-{
-    // Inicializa sistema M5
-    auto cfg = M5.config();
-    M5.begin(cfg);
-
-    // Rotaciona tela
-    M5.Display.setRotation(1);
-
-    while (1) {
-
-        float ax, ay, az;
-
-        // Leitura do acelerômetro
-        M5.Imu.getAccel(&ax, &ay, &az);
-
-        // Limpa tela
-        M5.Display.fillScreen(TFT_BLACK);
-
-        // Define posição do cursor
-        M5.Display.setCursor(10, 10);
-
-        // Exibe valores
-        M5.Display.printf("AX: %.2f\n", ax);
-        M5.Display.printf("AY: %.2f\n", ay);
-        M5.Display.printf("AZ: %.2f\n", az);
-
-        // Aguarda 500ms
-        vTaskDelay(pdMS_TO_TICKS(500));
-    }
-}
-```
-
-------------------------------------------------------------------------
-
-### 5. Build e upload
+## ⚙️ Como executar
 
 ``` bash
 idf.py build
 idf.py flash monitor
 ```
 
+Execute sempre na raiz do projeto.
+
 ------------------------------------------------------------------------
 
-## ✅ Resultado esperado
+## 🧠 Conceito da Fase 2
 
--   Valores AX / AY / AZ mudam ao movimentar o dispositivo\
--   Tela atualiza continuamente
+### Fluxo do sistema:
+
+Tudo Calmo → Movimento → ALERTA → Parado → Tudo Calmo
+
+------------------------------------------------------------------------
+
+## 🔍 Lógica simplificada
+
+1.  Ler IMU\
+2.  Calcular magnitude\
+3.  Calcular delta\
+4.  Comparar com threshold\
+5.  Controlar tempo\
+6.  Mudar estado
+
+------------------------------------------------------------------------
+
+## 💻 Código principal (resumo)
+
+``` cpp
+float delta = fabs(accel - last_accel);
+
+if (delta > THRESHOLD) {
+    movement_start = now;
+} else {
+    still_start = now;
+}
+```
+
+------------------------------------------------------------------------
+
+## 🔌 Vibração
+
+-   Utiliza GPIO 26\
+-   Liga/desliga motor vibratório
 
 ------------------------------------------------------------------------
 
 ## ⚠️ Problemas comuns
 
-### ❌ app_main undefined
-
-✔ Solução:
-
-``` cpp
-extern "C" void app_main(void)
-```
-
-------------------------------------------------------------------------
-
-### ❌ M5Unified requires C++
-
-✔ Solução: - Renomear `main.c` → `main.cpp`
-
-------------------------------------------------------------------------
-
-### ❌ Rodar build dentro de /main
-
-✔ Solução: - Executar na raiz do projeto
+-   Threshold alto → não detecta movimento\
+-   GPIO errado → não vibra\
+-   Falta de extern "C" → erro de linker
 
 ------------------------------------------------------------------------
 
 ## 🧠 Aprendizados
 
--   Estrutura do ESP-IDF\
--   Integração de bibliotecas\
--   Diferença entre C e C++\
--   Uso básico da IMU
+-   Máquina de estados\
+-   Processamento de sinais\
+-   Integração C/C++\
+-   Controle de hardware
 
 ------------------------------------------------------------------------
 
-## 🚀 Próxima fase
+## 🚀 Próximos passos
 
--   Detectar movimento\
--   Detectar inatividade\
--   Criar alertas\
--   Ativar vibração
+-   Melhorar UX\
+-   Vibração não bloqueante\
+-   Filtro de ruído
 
 ------------------------------------------------------------------------
 
 # 🇺🇸 English
 
+## 📚 Overview
+
+This project was built in a **step-by-step learning approach**, divided
+into phases:
+
+-   Phase 1 → Setup + IMU reading\
+-   Phase 2 → Motion detection + vibration alert
+
+------------------------------------------------------------------------
+
 ## 🎯 Objective
 
-Create a minimal working project to:
+Build an embedded system capable of:
 
--   Validate ESP-IDF setup\
--   Integrate M5Unified\
--   Read IMU data\
--   Display data on screen
-
-------------------------------------------------------------------------
-
-## 🧱 Prerequisites
-
--   ESP-IDF installed (v5.x)
--   Python configured
--   M5StickC Plus2 connected via USB
+-   Reading sensors (accelerometer)
+-   Detecting motion
+-   Displaying data
+-   Triggering physical alerts (vibration)
 
 ------------------------------------------------------------------------
 
-## ⚙️ Step by step
+## 🧱 Project structure
 
-### 1. Create project
-
-``` bash
-idf.py create-project m5stickc-idf-activity-haptic
-cd m5stickc-idf-activity-haptic
-```
-
-------------------------------------------------------------------------
-
-### 2. Add dependency
-
-``` bash
-idf.py add-dependency "m5stack/M5Unified"
-```
+    .
+    ├── README.md
+    ├── docs/
+    │   ├── fase1.md
+    │   └── fase2.md
+    └── main/
 
 ------------------------------------------------------------------------
 
-### 3. Configure files
-
-#### main/idf_component.yml
-
-``` yaml
-dependencies:
-  m5stack/M5Unified: "^0.2.13"
-```
-
-#### main/CMakeLists.txt
-
-``` cmake
-idf_component_register(
-    SRCS "main.cpp"
-    INCLUDE_DIRS "."
-)
-```
-
-------------------------------------------------------------------------
-
-### 4. Main code
-
-``` cpp
-#include <M5Unified.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-
-// IMPORTANT:
-// extern "C" avoids linker errors
-extern "C" void app_main(void)
-{
-    auto cfg = M5.config();
-    M5.begin(cfg);
-
-    M5.Display.setRotation(1);
-
-    while (1) {
-
-        float ax, ay, az;
-
-        M5.Imu.getAccel(&ax, &ay, &az);
-
-        M5.Display.fillScreen(TFT_BLACK);
-        M5.Display.setCursor(10, 10);
-
-        M5.Display.printf("AX: %.2f\n", ax);
-        M5.Display.printf("AY: %.2f\n", ay);
-        M5.Display.printf("AZ: %.2f\n", az);
-
-        vTaskDelay(pdMS_TO_TICKS(500));
-    }
-}
-```
-
-------------------------------------------------------------------------
-
-### 5. Build and flash
+## ⚙️ How to run
 
 ``` bash
 idf.py build
 idf.py flash monitor
 ```
 
+Run from project root.
+
 ------------------------------------------------------------------------
 
-## ✅ Expected result
+## 🧠 Phase 2 concept
 
--   AX / AY / AZ values change when moving\
--   Display updates continuously
+### System flow:
+
+Calm → Movement → ALERT → Still → Calm
+
+------------------------------------------------------------------------
+
+## 🔍 Core logic
+
+1.  Read IMU\
+2.  Compute magnitude\
+3.  Compute delta\
+4.  Compare with threshold\
+5.  Track time\
+6.  Change state
+
+------------------------------------------------------------------------
+
+## 💻 Code snippet
+
+``` cpp
+float delta = fabs(accel - last_accel);
+```
+
+------------------------------------------------------------------------
+
+## 🔌 Vibration
+
+-   Uses GPIO 26\
+-   Turns motor ON/OFF
 
 ------------------------------------------------------------------------
 
 ## ⚠️ Common issues
 
-### ❌ app_main undefined
-
-✔ Fix:
-
-``` cpp
-extern "C" void app_main(void)
-```
-
-------------------------------------------------------------------------
-
-### ❌ M5Unified requires C++
-
-✔ Fix: - Rename `main.c` → `main.cpp`
-
-------------------------------------------------------------------------
-
-### ❌ Running build inside /main
-
-✔ Fix: - Run from project root
+-   High threshold → no detection\
+-   Wrong GPIO → no vibration\
+-   Missing extern "C" → linker error
 
 ------------------------------------------------------------------------
 
 ## 🧠 Learnings
 
--   ESP-IDF structure\
--   Library integration\
--   C vs C++ differences\
--   Basic IMU usage
+-   State machines\
+-   Signal processing\
+-   C/C++ integration\
+-   Hardware control
 
 ------------------------------------------------------------------------
 
-## 🚀 Next phase
+## 🚀 Next steps
 
--   Detect movement\
--   Detect inactivity\
--   Create alerts\
--   Trigger vibration
+-   Improve UX\
+-   Non-blocking vibration\
+-   Signal filtering
