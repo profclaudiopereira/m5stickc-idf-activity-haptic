@@ -221,3 +221,35 @@ float delta = fabs(accel - last_accel);
 -   Improve UX\
 -   Non-blocking vibration\
 -   Signal filtering
+
+-------------------------------------------------------------------------
+
+
+## 📸 Imagens do Projeto | Project Images
+
+### 🇧🇷
+Imagens reais do desenvolvimento e testes.
+
+### 🇺🇸
+Real images from development and testing.
+
+![Imagem 1](assets/img1.jpg)
+![Imagem 2](assets/img2.jpg)
+![Imagem 3](assets/img3.jpg)
+
+----------------------------------------------------------------------------
+
+## 🧰 Hardware utilizado | Hardware Used
+
+### 🇧🇷
+- M5StickC Plus2  
+- Motor vibratório  
+
+### 🇺🇸
+- M5StickC Plus2  
+- Vibration motor  
+
+### 🔗 Links
+
+- M5StickC Plus2: https://docs.m5stack.com/en/core/M5StickC%20PLUS2
+- Motor vibratório: https://docs.m5stack.com/en/hat/HAT-Vibrator
