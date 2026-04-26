@@ -76,7 +76,7 @@ float delta = fabs(accel - last_accel);
 #define THRESHOLD 0.05
 ```
 
--   menor = mais sensível\
+-   menor = mais sensível
 -   maior = menos sensível
 
 ------------------------------------------------------------------------
@@ -258,25 +258,25 @@ void vibrator_alert(void) {
 
 ## ⚠️ Problemas comuns
 
--   Não entra em ALERTA → threshold alto\
--   Não vibra → GPIO não configurado\
+-   Não entra em ALERTA → threshold alto
+-   Não vibra → GPIO não configurado
 -   Erro linker → falta extern "C"
 
 ------------------------------------------------------------------------
 
 ## 🧠 Aprendizados
 
--   Máquina de estados\
--   Processamento de sinal\
--   Integração C + C++\
+-   Máquina de estados
+-   Processamento de sinal
+-   Integração C + C++
 -   Controle de hardware (GPIO)
 
 ------------------------------------------------------------------------
 
 ## 🚀 Próxima fase
 
--   Vibração não bloqueante\
--   UI melhorada\
+-   Vibração não bloqueante
+-   UI melhorada
 -   Filtros de ruído
 
 ------------------------------------------------------------------------
@@ -287,34 +287,34 @@ void vibrator_alert(void) {
 
 Implement:
 
--   Motion detection\
--   State machine\
--   Display feedback\
+-   Motion detection
+-   State machine
+-   Display feedback
 -   Vibration alert
 
 ------------------------------------------------------------------------
 
 ## 🧠 Core logic
 
--   Read IMU\
--   Compute magnitude\
--   Detect change (delta)\
--   Track time\
+-   Read IMU
+-   Compute magnitude
+-   Detect change (delta)
+-   Track time
 -   Trigger alert
 
 ------------------------------------------------------------------------
 
 ## 🧠 Learnings
 
--   Embedded state machines\
--   Sensor processing\
--   C/C++ integration\
+-   Embedded state machines
+-   Sensor processing
+-   C/C++ integration
 -   Hardware control
 
 ------------------------------------------------------------------------
 
 ## 🚀 Next phase
 
--   Non-blocking vibration\
--   Better UI\
+-   Non-blocking vibration
+-   Better UI
 -   Signal filtering

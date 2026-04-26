@@ -11,9 +11,9 @@ Study project using **ESP-IDF + M5Unified** on M5StickC Plus2.
 
 Criar um projeto mínimo funcional para:
 
--   Validar ambiente ESP-IDF\
--   Integrar biblioteca M5Unified\
--   Ler dados do acelerômetro (IMU)\
+-   Validar ambiente ESP-IDF
+-   Integrar biblioteca M5Unified
+-   Ler dados do acelerômetro (IMU)
 -   Exibir dados na tela
 
 ------------------------------------------------------------------------
@@ -120,7 +120,7 @@ idf.py flash monitor
 
 ## ✅ Resultado esperado
 
--   Valores AX / AY / AZ mudam ao movimentar o dispositivo\
+-   Valores AX / AY / AZ mudam ao movimentar o dispositivo
 -   Tela atualiza continuamente
 
 ------------------------------------------------------------------------
@@ -151,18 +151,18 @@ extern "C" void app_main(void)
 
 ## 🧠 Aprendizados
 
--   Estrutura do ESP-IDF\
--   Integração de bibliotecas\
--   Diferença entre C e C++\
+-   Estrutura do ESP-IDF
+-   Integração de bibliotecas
+-   Diferença entre C e C++
 -   Uso básico da IMU
 
 ------------------------------------------------------------------------
 
 ## 🚀 Próxima fase
 
--   Detectar movimento\
--   Detectar inatividade\
--   Criar alertas\
+-   Detectar movimento
+-   Detectar inatividade
+-   Criar alertas
 -   Ativar vibração
 
 ------------------------------------------------------------------------
@@ -173,9 +173,9 @@ extern "C" void app_main(void)
 
 Create a minimal working project to:
 
--   Validate ESP-IDF setup\
--   Integrate M5Unified\
--   Read IMU data\
+-   Validate ESP-IDF setup
+-   Integrate M5Unified
+-   Read IMU data
 -   Display data on screen
 
 ------------------------------------------------------------------------
@@ -274,7 +274,7 @@ idf.py flash monitor
 
 ## ✅ Expected result
 
--   AX / AY / AZ values change when moving\
+-   AX / AY / AZ values change when moving
 -   Display updates continuously
 
 ------------------------------------------------------------------------
@@ -305,16 +305,16 @@ extern "C" void app_main(void)
 
 ## 🧠 Learnings
 
--   ESP-IDF structure\
--   Library integration\
--   C vs C++ differences\
+-   ESP-IDF structure
+-   Library integration
+-   C vs C++ differences
 -   Basic IMU usage
 
 ------------------------------------------------------------------------
 
 ## 🚀 Next phase
 
--   Detect movement\
--   Detect inactivity\
--   Create alerts\
+-   Detect movement
+-   Detect inactivity
+-   Create alerts
 -   Trigger vibration
