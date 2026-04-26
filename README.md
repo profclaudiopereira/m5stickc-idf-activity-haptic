@@ -13,7 +13,7 @@ Study project using **ESP-IDF + M5Unified** on M5StickC Plus2.
 Este projeto foi desenvolvido de forma **didática e evolutiva**,
 dividido em fases:
 
--   Fase 1 → Setup + leitura da IMU\
+-   Fase 1 → Setup + leitura da IMU
 -   Fase 2 → Detecção de movimento + alerta com vibração
 
 ------------------------------------------------------------------------
@@ -65,11 +65,11 @@ Tudo Calmo → Movimento → ALERTA → Parado → Tudo Calmo
 
 ## 🔍 Lógica simplificada
 
-1.  Ler IMU\
-2.  Calcular magnitude\
-3.  Calcular delta\
-4.  Comparar com threshold\
-5.  Controlar tempo\
+1.  Ler IMU
+2.  Calcular magnitude
+3.  Calcular delta
+4.  Comparar com threshold
+5.  Controlar tempo
 6.  Mudar estado
 
 ------------------------------------------------------------------------
@@ -90,32 +90,32 @@ if (delta > THRESHOLD) {
 
 ## 🔌 Vibração
 
--   Utiliza GPIO 26\
+-   Utiliza GPIO 26
 -   Liga/desliga motor vibratório
 
 ------------------------------------------------------------------------
 
 ## ⚠️ Problemas comuns
 
--   Threshold alto → não detecta movimento\
--   GPIO errado → não vibra\
+-   Threshold alto → não detecta movimento
+-   GPIO errado → não vibra
 -   Falta de extern "C" → erro de linker
 
 ------------------------------------------------------------------------
 
 ## 🧠 Aprendizados
 
--   Máquina de estados\
--   Processamento de sinais\
--   Integração C/C++\
+-   Máquina de estados
+-   Processamento de sinais
+-   Integração C/C++
 -   Controle de hardware
 
 ------------------------------------------------------------------------
 
 ## 🚀 Próximos passos
 
--   Melhorar UX\
--   Vibração não bloqueante\
+-   Melhorar UX
+-   Vibração não bloqueante
 -   Filtro de ruído
 
 ------------------------------------------------------------------------
@@ -127,7 +127,7 @@ if (delta > THRESHOLD) {
 This project was built in a **step-by-step learning approach**, divided
 into phases:
 
--   Phase 1 → Setup + IMU reading\
+-   Phase 1 → Setup + IMU reading
 -   Phase 2 → Motion detection + vibration alert
 
 ------------------------------------------------------------------------
@@ -175,11 +175,11 @@ Calm → Movement → ALERT → Still → Calm
 
 ## 🔍 Core logic
 
-1.  Read IMU\
-2.  Compute magnitude\
-3.  Compute delta\
-4.  Compare with threshold\
-5.  Track time\
+1.  Read IMU
+2.  Compute magnitude
+3.  Compute delta
+4.  Compare with threshold
+5.  Track time
 6.  Change state
 
 ------------------------------------------------------------------------
@@ -194,32 +194,32 @@ float delta = fabs(accel - last_accel);
 
 ## 🔌 Vibration
 
--   Uses GPIO 26\
+-   Uses GPIO 26
 -   Turns motor ON/OFF
 
 ------------------------------------------------------------------------
 
 ## ⚠️ Common issues
 
--   High threshold → no detection\
--   Wrong GPIO → no vibration\
+-   High threshold → no detection
+-   Wrong GPIO → no vibration
 -   Missing extern "C" → linker error
 
 ------------------------------------------------------------------------
 
 ## 🧠 Learnings
 
--   State machines\
--   Signal processing\
--   C/C++ integration\
+-   State machines
+-   Signal processing
+-   C/C++ integration
 -   Hardware control
 
 ------------------------------------------------------------------------
 
 ## 🚀 Next steps
 
--   Improve UX\
--   Non-blocking vibration\
+-   Improve UX
+-   Non-blocking vibration
 -   Signal filtering
 
 -------------------------------------------------------------------------
